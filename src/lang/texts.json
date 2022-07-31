@@ -8,6 +8,12 @@
       "Title": "Ups! 404",
       "Description": "Al parecer la página que buscas no existe",
       "Link": "Volver al juego"
+    },
+    "Game": {
+      "Left": "Izquierda",
+      "Up": "Arriba",
+      "Right": "Derecha",
+      "Down": "Abajo"
     }
   }
 }
