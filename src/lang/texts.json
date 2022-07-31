@@ -3,6 +3,11 @@
     "Home": {
       "Title": "Sito - ReactJs - Snake 🐍",
       "Start": "Comenzar"
+    },
+    "NotFound": {
+      "Title": "Ups! 404",
+      "Description": "Al parecer la página que buscas no existe",
+      "Link": "Volver al juego"
     }
   }
 }
