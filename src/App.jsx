@@ -1,31 +1,22 @@
-// contexts
-import { useLanguage } from "./contexts/LanguageProvider";
+// react-router-dom
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// images
-import logo from "./logo.svg";
+// views
+import Home from "./views/Home";
+import Game from "./views/Game";
+import NotFound from "./views/NotFound";
 
 // styles
 import "./App.css";
 
-const App = () => {
-  const { languageState } = useLanguage();
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1>{languageState.texts.Home.Title}</h1>
-        <Link
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {languageState.texts.Home.Start}
-        </Link>
-      </header>
-    </div>
-  );
-};
+const App = () => (
+  <BrowserRouter>
+    <Routes>
+      <Route exact path="/" element={<Home />} />
+      <Route exact path="/game" element={<Game />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  </BrowserRouter>
+);
 
 export default App;

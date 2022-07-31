@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import reportWebVitals from "./reportWebVitals";
 
 // App
 import App from "./App";
@@ -10,6 +9,9 @@ import "./index.css";
 
 // contexts
 import { LanguageProvider } from "./contexts/LanguageProvider";
+
+// to remove
+import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
