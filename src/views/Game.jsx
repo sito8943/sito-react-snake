@@ -6,9 +6,8 @@ import SitoContainer from "sito-container";
 
 // own components
 import Control from "../components/Control";
-
-// contexts
-import { useLanguage } from "../contexts/LanguageProvider";
+import FavButton from "../components/FavButton";
+import Loading from "../components/Loading";
 
 // enums
 import {
@@ -20,6 +19,7 @@ import {
 } from "../utils/move";
 
 const Game = () => {
+  const [loading, setLoading] = useState(true);
   const [fieldSize, setFieldSize] = useState(16);
   const [canTurnBack, setCanTurnBack] = useState(false);
   const [canMoveThroughEdge, setCanMoveThroughEdge] = useState(false);
@@ -74,6 +74,7 @@ const Game = () => {
   };
 
   const init = useCallback(() => {
+    setLoading(true);
     const newField = [];
     setCanMove(true);
     for (let i = 0; i < fieldSize; i += 1) newField.push(0);
@@ -96,6 +97,7 @@ const Game = () => {
       { y: fieldSize / 2 - 3, x: fieldSize / 2 + 3 },
     ]); */
     generateFruit();
+    // setLoading(false);
   }, [fieldSize]);
 
   useEffect(() => {
@@ -264,6 +266,7 @@ const Game = () => {
 
   return (
     <div className="App">
+      <Loading visible={loading} />
       <header className="App-header">
         {snake.length &&
           field.map((item, i) => (
@@ -286,6 +289,7 @@ const Game = () => {
         onUp={() => keyHandlers({ key: "W" })}
         onDown={() => keyHandlers({ key: "S" })}
       />
+      <FavButton onClick />
     </div>
   );
 };

@@ -16,15 +16,15 @@ const Control = (props) => {
         sx={{ width: "100%", marginBottom: "5px" }}
       >
         <button className="fav-button" onClick={onUp}>
-          <i class="fa fa-arrow-up" aria-hidden="true"></i>
+          <i className="fa fa-arrow-up" aria-hidden="true"></i>
         </button>
       </SitoContainer>
       <SitoContainer>
         <button className="fav-button" onClick={onLeft}>
-          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+          <i className="fa fa-arrow-left" aria-hidden="true"></i>
         </button>
         <button className="fav-button small-fab-margin-left" onClick={onRight}>
-          <i class="fa fa-arrow-right" aria-hidden="true"></i>
+          <i className="fa fa-arrow-right" aria-hidden="true"></i>
         </button>
       </SitoContainer>
       <SitoContainer
@@ -32,7 +32,7 @@ const Control = (props) => {
         sx={{ width: "100%", marginTop: "5px" }}
       >
         <button className="fav-button" onClick={onDown}>
-          <i class="fa fa-arrow-down" aria-hidden="true"></i>
+          <i className="fa fa-arrow-down" aria-hidden="true"></i>
         </button>
       </SitoContainer>
     </SitoContainer>

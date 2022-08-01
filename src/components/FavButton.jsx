@@ -7,7 +7,9 @@ const FavButton = (props) => {
   const { onClick } = props;
   return (
     <SitoContainer>
-      <button onClick={onClick}>{">"}</button>
+      <button onClick={onClick}>
+        <i className="fa fa-cog" aria-hidden="true"></i>
+      </button>
     </SitoContainer>
   );
 };
