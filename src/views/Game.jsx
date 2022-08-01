@@ -27,7 +27,7 @@ const Game = () => {
   const [canMoveThroughEdge, setCanMoveThroughEdge] = useState(false);
   const [fruitIncrease, setFruitIncrease] = useState(1);
   const [field, setField] = useState([]);
-  const [canMove, setCanMove] = useState(false);
+  const [canMove, setCanMove] = useState(true);
   const [pause, setPause] = useState(false);
 
   const [sidebar, setSidebar] = useState(false);
