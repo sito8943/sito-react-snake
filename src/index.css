@@ -12,15 +12,12 @@ code {
     monospace;
 }
 
-.fav-button {
-  border: none;
-  border-radius: 100%;
-  padding: 15px 9px;
-  height: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #222;
+.control {
+  font-size: 20px !important;
+}
+
+.fab-button {
+  font-size: 30px;
   color: aliceblue;
   cursor: pointer;
   transition: all 500ms ease;
@@ -30,7 +27,14 @@ button:hover {
   background: aliceblue;
   color: #222;
 }
+.fab-button:hover {
+  color: rgb(0, 255, 106);
+}
 
 .small-fab-margin-left {
   margin-left: 10px;
+}
+
+.small-fab-margin-top {
+  margin-top: 10px;
 }

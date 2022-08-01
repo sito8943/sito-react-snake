@@ -6,7 +6,7 @@ import SitoContainer from "sito-container";
 
 // own components
 import Control from "../components/Control";
-import FavButton from "../components/FavButton";
+import FabButtons from "../components/FabButtons";
 import Loading from "../components/Loading";
 import Dead from "../components/Dead";
 
@@ -27,6 +27,7 @@ const Game = () => {
   const [fruitIncrease, setFruitIncrease] = useState(1);
   const [field, setField] = useState([]);
   const [canMove, setCanMove] = useState(false);
+  const [pause, setPause] = useState(false);
 
   const [sidebar, setSidebar] = useState(false);
 
@@ -109,7 +110,7 @@ const Game = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (canMove)
+      if (canMove && !pause)
         if (snake.length)
           switch (direction) {
             case DirectionEnum.Up:
@@ -138,7 +139,7 @@ const Game = () => {
 
   const keyHandlers = useCallback(
     (e) => {
-      if (canMove) {
+      if (canMove && !pause) {
         if (e.key === "ArrowLeft" || e.key === "A" || e.key === "a") {
           if (
             (canTurnBack && direction === DirectionEnum.Right) ||
@@ -293,7 +294,10 @@ const Game = () => {
         onUp={() => keyHandlers({ key: "W" })}
         onDown={() => keyHandlers({ key: "S" })}
       />
-      <FavButton onClick={() => setSidebar(true)} />
+      <FabButtons
+        onPause={() => setPause(!pause)}
+        onSidebarOpen={() => setSidebar(true)}
+      />
     </div>
   );
 };
