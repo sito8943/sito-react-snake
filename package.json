@@ -1,7 +1,8 @@
 {
   "name": "sito-react-snake",
-  "version": "0.1.0",
+  "version": "0.1.19",
   "private": false,
+  "homepage": "https://sitonumbis.github.io/sito-react-snake",
   "dependencies": {
     "gh-pages": "^4.0.0",
     "react": "^18.2.0",
