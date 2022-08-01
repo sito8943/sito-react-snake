@@ -3,13 +3,8 @@ import PropTypes from "prop-types";
 // sito components
 import SitoContainer from "sito-container";
 
-// contexts
-import { useLanguage } from "../contexts/LanguageProvider";
-
 const Control = (props) => {
   const { onLeft, onRight, onUp, onDown } = props;
-
-  const { languageState } = useLanguage();
 
   return (
     <SitoContainer
@@ -21,15 +16,15 @@ const Control = (props) => {
         sx={{ width: "100%", marginBottom: "5px" }}
       >
         <button className="fav-button" onClick={onUp}>
-          {languageState.texts.Game.Up}
+          <i class="fa fa-arrow-up" aria-hidden="true"></i>
         </button>
       </SitoContainer>
       <SitoContainer>
         <button className="fav-button" onClick={onLeft}>
-          {languageState.texts.Game.Left}
+          <i class="fa fa-arrow-left" aria-hidden="true"></i>
         </button>
         <button className="fav-button small-fab-margin-left" onClick={onRight}>
-          {languageState.texts.Game.Right}
+          <i class="fa fa-arrow-right" aria-hidden="true"></i>
         </button>
       </SitoContainer>
       <SitoContainer
@@ -37,7 +32,7 @@ const Control = (props) => {
         sx={{ width: "100%", marginTop: "5px" }}
       >
         <button className="fav-button" onClick={onDown}>
-          {languageState.texts.Game.Down}
+          <i class="fa fa-arrow-down" aria-hidden="true"></i>
         </button>
       </SitoContainer>
     </SitoContainer>
