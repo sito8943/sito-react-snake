@@ -35,6 +35,10 @@ button:hover {
   margin-left: 10px;
 }
 
+.medium-fab-margin-left {
+  margin-left: 20px;
+}
+
 .small-fab-margin-top {
   margin-top: 10px;
 }

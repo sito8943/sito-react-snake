@@ -29,7 +29,7 @@ const Control = (props) => {
         ></i>
         <i
           onClick={onRight}
-          className="control fab-button small-fab-margin-left fa fa-arrow-right"
+          className="control fab-button medium-fab-margin-left fa fa-arrow-right"
           aria-hidden="true"
         ></i>
       </SitoContainer>
