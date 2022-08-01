@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useCallback, useEffect } from "react";
 
@@ -126,7 +127,7 @@ const Game = () => {
     return () => {
       clearTimeout(timer);
     };
-  }, [canMove, snake, direction]);
+  }, [pause, canMove, snake, direction]);
 
   useEffect(() => {
     if (snake.length && isHeadOnFruit()) {
