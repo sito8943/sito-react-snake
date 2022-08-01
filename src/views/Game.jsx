@@ -24,6 +24,15 @@ const Game = () => {
 
   const [direction, setDirection] = useState(DirectionEnum.Down);
   const [snake, setSnake] = useState([]);
+  const [fruit, setFruit] = useState({ y: 3, x: 3 });
+
+  const generateFruit = () => {};
+
+  const [fruitIncrease, setFruitIncrease] = useState(1);
+
+  const increaseSnake = () => {
+    setSnake();
+  };
 
   const init = useCallback(() => {
     const newField = [];
@@ -54,7 +63,6 @@ const Game = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      console.log(snake.length);
       if (snake.length)
         switch (direction) {
           case DirectionEnum.Up:
@@ -71,6 +79,13 @@ const Game = () => {
       clearTimeout(timer);
     };
   }, [snake, direction]);
+
+  useEffect(() => {
+    if (isHeadOnFruit()) {
+      increaseSnake();
+      generateFruit();
+    }
+  }, [snake]);
 
   const keyHandlers = useCallback(
     (e) => {
@@ -151,6 +166,10 @@ const Game = () => {
 
   const isHead = (y, x) => snake[0].y === y && snake[0].x === x;
 
+  const isHeadOnFruit = () => fruit.y === snake[0].y && fruit.x === snake[0].x;
+
+  const isFruit = (y, x) => fruit.y === y && fruit.x === x;
+
   const isBody = (y, x) => {
     const body = snake.filter((item, i) => {
       if (item.y === y && item.x === x && i !== 0) return item;
@@ -185,6 +204,7 @@ const Game = () => {
                     <div className={`snake-head ${rotateByDirection()}`} />
                   )}
                   {isBody(i, j) && <div className="snake-body" />}
+                  {isFruit(i, j) && <div className="fruit" />}
                 </SitoContainer>
               ))}
             </SitoContainer>

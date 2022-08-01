@@ -52,6 +52,14 @@
   background-color: green;
 }
 
+.fruit {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  display: inline-block;
+  background-color: crimson;
+}
+
 .face-up {
   transform: rotate(180deg);
 }
