@@ -103,7 +103,6 @@ const Game = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      console.log(canMove);
       if (canMove)
         if (snake.length)
           switch (direction) {
