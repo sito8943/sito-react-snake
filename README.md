@@ -16,3 +16,11 @@ Is the react version for snake
 ### JavaScript libraries
 
 - [https://www.npmjs.com/sito-container] SitoContainer as high level div
+
+### Future versions
+
+- Sidebar for custom the game style as:
+    - Snake speed
+    - Snake style (color and shape)
+    - Fruit style (color and shape)
+    - Game rules (fruit increase point, can pass through walls, can turn back, etc)
