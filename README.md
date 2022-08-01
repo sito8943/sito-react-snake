@@ -2,6 +2,11 @@
 
 Is the react version for snake
 
+### How to run
+
+- `npm install` or `yarn install`
+- `npm run start` or `yarn start`
+
 ### Used
 
 - [https://reactjs.org/](ReactJs) for web development
