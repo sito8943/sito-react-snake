@@ -3,13 +3,19 @@ import PropTypes from "prop-types";
 // sito components
 import SitoContainer from "sito-container";
 
-const Loading = (props) => {
-  const { visible } = props;
+// contexts
+import { useLanguage } from "../contexts/LanguageProvider";
+
+const Dead = (props) => {
+  const { visible, onRetry } = props;
+
+  const { languageState } = useLanguage();
 
   return (
     <SitoContainer
       justifyContent="center"
       alignItems="center"
+      flexDirection="column"
       sx={{
         position: "fixed",
         top: 0,
@@ -24,13 +30,18 @@ const Loading = (props) => {
         fontSize: "35px",
       }}
     >
-      <i className="fa fa-refresh rotate" aria-hidden="true"></i>
+      <h2 className="no-margin red">{languageState.texts.Dead.Title}</h2>
+      <p className="no-margin">{languageState.texts.Dead.Description}</p>
+      <button className="button" onClick={onRetry}>
+        {languageState.texts.Dead.Retry}
+      </button>
     </SitoContainer>
   );
 };
 
-Loading.propTypes = {
+Dead.propTypes = {
   visible: PropTypes.bool.isRequired,
+  onRetry: PropTypes.func.isRequired,
 };
 
-export default Loading;
+export default Dead;

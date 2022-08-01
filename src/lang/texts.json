@@ -9,6 +9,11 @@
       "Description": "Al parecer la página que buscas no existe",
       "Link": "Volver al juego"
     },
+    "Dead": {
+      "Title": "Oh! No",
+      "Description": "Has perdido",
+      "Retry": "Reintentar"
+    },
     "Game": {
       "Left": "A",
       "Up": "W",

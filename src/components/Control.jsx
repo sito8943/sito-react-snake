@@ -9,7 +9,7 @@ const Control = (props) => {
   return (
     <SitoContainer
       flexDirection="column"
-      sx={{ position: "absolute", zIndex: 99, bottom: 10, left: 10 }}
+      sx={{ position: "absolute", zIndex: 30, bottom: 10, left: 10 }}
     >
       <SitoContainer
         justifyContent="center"

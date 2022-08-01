@@ -42,6 +42,24 @@
   }
 }
 
+.button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  background: #222;
+  color: aliceblue;
+  cursor: pointer;
+  transition: all 500ms ease;
+}
+
+.red {
+  color: crimson;
+}
+
+.no-margin {
+  margin: 0;
+}
+
 .snake-head {
   width: 0;
   height: 0;

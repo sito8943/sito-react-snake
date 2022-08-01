@@ -26,7 +26,7 @@ code {
   transition: all 500ms ease;
 }
 
-.fav-button:hover {
+button:hover {
   background: aliceblue;
   color: #222;
 }

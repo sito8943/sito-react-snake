@@ -8,6 +8,7 @@ import SitoContainer from "sito-container";
 import Control from "../components/Control";
 import FavButton from "../components/FavButton";
 import Loading from "../components/Loading";
+import Dead from "../components/Dead";
 
 // enums
 import {
@@ -26,6 +27,8 @@ const Game = () => {
   const [fruitIncrease, setFruitIncrease] = useState(1);
   const [field, setField] = useState([]);
   const [canMove, setCanMove] = useState(false);
+
+  const [sidebar, setSidebar] = useState(false);
 
   const [direction, setDirection] = useState(DirectionEnum.Down);
   const [snake, setSnake] = useState([]);
@@ -97,7 +100,7 @@ const Game = () => {
       { y: fieldSize / 2 - 3, x: fieldSize / 2 + 3 },
     ]); */
     generateFruit();
-    // setLoading(false);
+    setLoading(false);
   }, [fieldSize]);
 
   useEffect(() => {
@@ -267,6 +270,7 @@ const Game = () => {
   return (
     <div className="App">
       <Loading visible={loading} />
+      <Dead visible={!canMove} onRetry={() => init()} />
       <header className="App-header">
         {snake.length &&
           field.map((item, i) => (
@@ -289,7 +293,7 @@ const Game = () => {
         onUp={() => keyHandlers({ key: "W" })}
         onDown={() => keyHandlers({ key: "S" })}
       />
-      <FavButton onClick />
+      <FavButton onClick={() => setSidebar(true)} />
     </div>
   );
 };
