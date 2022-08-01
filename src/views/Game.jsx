@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useCallback, useEffect } from "react";
 
 // sito components
@@ -20,29 +21,67 @@ const Game = () => {
 
   const [fieldSize, setFieldSize] = useState(16);
   const [canTurnBack, setCanTurnBack] = useState(false);
+  const [canMoveThroughEdge, setCanMoveThroughEdge] = useState(false);
   const [field, setField] = useState([]);
+  const [canMove, setCanMove] = useState(false);
 
   const [direction, setDirection] = useState(DirectionEnum.Down);
   const [snake, setSnake] = useState([]);
   const [fruit, setFruit] = useState({ y: 3, x: 3 });
-
-  const generateFruit = () => {};
-
   const [fruitIncrease, setFruitIncrease] = useState(1);
 
+  const generateFruit = () => {
+    const reducedFieldSize = fieldSize - 3;
+    let randomX = Math.floor(Math.random() * reducedFieldSize);
+    let randomY = Math.floor(Math.random() * reducedFieldSize);
+    if (randomX < 3) randomX += 3;
+    if (randomY < 3) randomY += 3;
+    let i = 0;
+    while (isBody(randomY, randomX) && i < 100) {
+      randomX = Math.floor(Math.random() * reducedFieldSize);
+      randomY = Math.floor(Math.random() * reducedFieldSize);
+      i += 1;
+    }
+    setFruit({ y: randomY, x: randomX });
+  };
+
   const increaseSnake = () => {
-    setSnake();
+    const newHeads = [];
+    for (let i = 0; i < fruitIncrease; i += 1) {
+      const newHead = {};
+      switch (direction) {
+        case DirectionEnum.Up:
+          newHead.y = snake[0].y - (i + 1);
+          newHead.x = snake[0].x;
+          break;
+        case DirectionEnum.Left:
+          newHead.y = snake[0].y;
+          newHead.x = snake[0].x - (i + 1);
+          break;
+        case DirectionEnum.Right:
+          newHead.y = snake[0].y;
+          newHead.x = snake[0].x + (i + 1);
+          break;
+        default:
+          newHead.y = snake[0].y + (i + 1);
+          newHead.x = snake[0].x;
+          break;
+      }
+      newHeads.push(newHead);
+    }
+    setSnake([...newHeads, ...snake]);
   };
 
   const init = useCallback(() => {
     const newField = [];
+    setCanMove(true);
     for (let i = 0; i < fieldSize; i += 1) newField.push(0);
     setField(newField);
-    /* setSnake([
+    setSnake([
       { y: fieldSize / 2, x: fieldSize / 2 },
       { y: fieldSize / 2 - 1, x: fieldSize / 2 },
-    ]); */
-    setSnake([
+    ]);
+    /* setSnake([
       { y: fieldSize / 2, x: fieldSize / 2 },
       { y: fieldSize / 2 - 1, x: fieldSize / 2 },
       { y: fieldSize / 2 - 1, x: fieldSize / 2 + 1 },
@@ -54,7 +93,8 @@ const Game = () => {
       { y: fieldSize / 2 - 2, x: fieldSize / 2 + 4 },
       { y: fieldSize / 2 - 3, x: fieldSize / 2 + 4 },
       { y: fieldSize / 2 - 3, x: fieldSize / 2 + 3 },
-    ]);
+    ]); */
+    generateFruit();
   }, [fieldSize]);
 
   useEffect(() => {
@@ -63,43 +103,65 @@ const Game = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (snake.length)
-        switch (direction) {
-          case DirectionEnum.Up:
-            return moveUp();
-          case DirectionEnum.Right:
-            return moveRight();
-          case DirectionEnum.Left:
-            return moveLeft();
-          default:
-            return moveDown();
-        }
-    }, 1000);
+      console.log(canMove);
+      if (canMove)
+        if (snake.length)
+          switch (direction) {
+            case DirectionEnum.Up:
+              return moveUp();
+            case DirectionEnum.Right:
+              return moveRight();
+            case DirectionEnum.Left:
+              return moveLeft();
+            default:
+              return moveDown();
+          }
+    }, 500);
     return () => {
       clearTimeout(timer);
     };
-  }, [snake, direction]);
+  }, [canMove, snake, direction]);
 
   useEffect(() => {
-    if (isHeadOnFruit()) {
+    if (snake.length && isHeadOnFruit()) {
       increaseSnake();
       generateFruit();
-    }
+    } else if (snake.length && isHeadOnBody()) setCanMove(false);
+    else if (snake.length && isHeadOnEdge() && !canMoveThroughEdge)
+      setCanMove(false);
   }, [snake]);
 
   const keyHandlers = useCallback(
     (e) => {
-      console.log(e.key);
-      if (e.key === "ArrowLeft" || e.key === "A" || e.key === "a")
-        setDirection(DirectionEnum.Left);
-      else if (e.key === "ArrowUp" || e.key === "W" || e.key === "w")
-        setDirection(DirectionEnum.Up);
-      else if (e.key === "ArrowRight" || e.key === "D" || e.key === "d")
-        setDirection(DirectionEnum.Right);
-      else if (e.key === "ArrowDown" || e.key === "S" || e.key === "s")
-        setDirection(DirectionEnum.Down);
+      if (canMove) {
+        if (e.key === "ArrowLeft" || e.key === "A" || e.key === "a") {
+          if (
+            (canTurnBack && direction === DirectionEnum.Right) ||
+            direction !== DirectionEnum.Right
+          )
+            setDirection(DirectionEnum.Left);
+        } else if (e.key === "ArrowUp" || e.key === "W" || e.key === "w") {
+          if (
+            (canTurnBack && direction === DirectionEnum.Down) ||
+            direction !== DirectionEnum.Down
+          )
+            setDirection(DirectionEnum.Up);
+        } else if (e.key === "ArrowRight" || e.key === "D" || e.key === "d") {
+          if (
+            (canTurnBack && direction === DirectionEnum.Left) ||
+            direction !== DirectionEnum.Left
+          )
+            setDirection(DirectionEnum.Right);
+        } else if (e.key === "ArrowDown" || e.key === "S" || e.key === "s") {
+          if (
+            (canTurnBack && direction === DirectionEnum.Up) ||
+            direction !== DirectionEnum.Up
+          )
+            setDirection(DirectionEnum.Down);
+        }
+      }
     },
-    [setDirection]
+    [canMove, canTurnBack, direction, setDirection]
   );
 
   useEffect(() => {
@@ -167,6 +229,14 @@ const Game = () => {
   const isHead = (y, x) => snake[0].y === y && snake[0].x === x;
 
   const isHeadOnFruit = () => fruit.y === snake[0].y && fruit.x === snake[0].x;
+
+  const isHeadOnBody = () => isBody(snake[0].y, snake[0].x);
+
+  const isHeadOnEdge = () =>
+    snake[0].y < 0 ||
+    snake[0].y === fieldSize ||
+    snake[0].x < 0 ||
+    snake[0].x === fieldSize;
 
   const isFruit = (y, x) => fruit.y === y && fruit.x === x;
 
