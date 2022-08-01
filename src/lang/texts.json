@@ -10,10 +10,10 @@
       "Link": "Volver al juego"
     },
     "Game": {
-      "Left": "Izquierda",
-      "Up": "Arriba",
-      "Right": "Derecha",
-      "Down": "Abajo"
+      "Left": "A",
+      "Up": "W",
+      "Right": "D",
+      "Down": "S"
     }
   }
 }

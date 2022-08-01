@@ -4,6 +4,9 @@ import { useState, useCallback, useEffect } from "react";
 // sito components
 import SitoContainer from "sito-container";
 
+// own components
+import Control from "../components/Control";
+
 // contexts
 import { useLanguage } from "../contexts/LanguageProvider";
 
@@ -17,18 +20,16 @@ import {
 } from "../utils/move";
 
 const Game = () => {
-  const { languageState } = useLanguage();
-
   const [fieldSize, setFieldSize] = useState(16);
   const [canTurnBack, setCanTurnBack] = useState(false);
   const [canMoveThroughEdge, setCanMoveThroughEdge] = useState(false);
+  const [fruitIncrease, setFruitIncrease] = useState(1);
   const [field, setField] = useState([]);
   const [canMove, setCanMove] = useState(false);
 
   const [direction, setDirection] = useState(DirectionEnum.Down);
   const [snake, setSnake] = useState([]);
   const [fruit, setFruit] = useState({ y: 3, x: 3 });
-  const [fruitIncrease, setFruitIncrease] = useState(1);
 
   const generateFruit = () => {
     const reducedFieldSize = fieldSize - 3;
@@ -279,12 +280,12 @@ const Game = () => {
             </SitoContainer>
           ))}
       </header>
-      <SitoContainer sx={{ position: "absolute", zIndex: 99, top: 0, left: 0 }}>
-        <button onClick={moveUp}>{languageState.texts.Game.Up}</button>
-        <button onClick={moveLeft}>{languageState.texts.Game.Left}</button>
-        <button onClick={moveRight}>{languageState.texts.Game.Right}</button>
-        <button onClick={moveDown}>{languageState.texts.Game.Down}</button>
-      </SitoContainer>
+      <Control
+        onLeft={() => keyHandlers({ key: "A" })}
+        onRight={() => keyHandlers({ key: "D" })}
+        onUp={() => keyHandlers({ key: "W" })}
+        onDown={() => keyHandlers({ key: "S" })}
+      />
     </div>
   );
 };
