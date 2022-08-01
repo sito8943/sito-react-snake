@@ -6,17 +6,20 @@ import SitoContainer from "sito-container";
 // contexts
 import { useLanguage } from "../contexts/LanguageProvider";
 
-const DirectionEnum = {
-  Up: 1,
-  Right: 2,
-  Down: 3,
-  Left: 4,
-};
+// enums
+import {
+  DirectionEnum,
+  jsMoveDown,
+  jsMoveUp,
+  jsMoveRight,
+  jsMoveLeft,
+} from "../utils/move";
 
 const Game = () => {
   const { languageState } = useLanguage();
 
   const [fieldSize, setFieldSize] = useState(16);
+  const [canTurnBack, setCanTurnBack] = useState(false);
   const [field, setField] = useState([]);
 
   const [direction, setDirection] = useState(DirectionEnum.Down);
@@ -49,6 +52,48 @@ const Game = () => {
     init();
   }, [fieldSize, init]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log(snake.length);
+      if (snake.length)
+        switch (direction) {
+          case DirectionEnum.Up:
+            return moveUp();
+          case DirectionEnum.Right:
+            return moveRight();
+          case DirectionEnum.Left:
+            return moveLeft();
+          default:
+            return moveDown();
+        }
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [snake, direction]);
+
+  const keyHandlers = useCallback(
+    (e) => {
+      console.log(e.key);
+      if (e.key === "ArrowLeft" || e.key === "A" || e.key === "a")
+        setDirection(DirectionEnum.Left);
+      else if (e.key === "ArrowUp" || e.key === "W" || e.key === "w")
+        setDirection(DirectionEnum.Up);
+      else if (e.key === "ArrowRight" || e.key === "D" || e.key === "d")
+        setDirection(DirectionEnum.Right);
+      else if (e.key === "ArrowDown" || e.key === "S" || e.key === "s")
+        setDirection(DirectionEnum.Down);
+    },
+    [setDirection]
+  );
+
+  useEffect(() => {
+    window.addEventListener("keydown", keyHandlers);
+    return () => {
+      window.removeEventListener("keydown", keyHandlers);
+    };
+  }, [keyHandlers]);
+
   const cell = {
     width: "30px",
     height: "30px",
@@ -61,98 +106,47 @@ const Game = () => {
 
   // movement
   const moveDown = () => {
-    const cloneSnake = direction === DirectionEnum.Up ? snake.reverse() : snake;
-    const newSnake = [];
-    let lastXY = {};
-    for (let i = 0; i < cloneSnake.length; i += 1) {
-      const newItem = { ...cloneSnake[i] };
-      if (i !== 0) {
-        if (lastXY.y > cloneSnake[i].y && lastXY.x === cloneSnake[i].x)
-          newItem.y += 1;
-        else if (lastXY.y === cloneSnake[i].y && lastXY.x < cloneSnake[i].x)
-          newItem.x -= 1;
-        else if (lastXY.y < cloneSnake[i].y && lastXY.x === cloneSnake[i].x)
-          newItem.y -= 1;
-        else if (lastXY.y === cloneSnake[i].y && lastXY.x > cloneSnake[i].x)
-          newItem.x += 1;
-      } else newItem.y += 1;
-      lastXY = { ...cloneSnake[i] };
-      newSnake.push(newItem);
+    if (
+      (canTurnBack && direction === DirectionEnum.Up) ||
+      direction !== DirectionEnum.Up
+    ) {
+      const newSnake = jsMoveDown(snake, direction);
+      setSnake(newSnake);
+      setDirection(DirectionEnum.Down);
     }
-    setSnake(newSnake);
-    setDirection(DirectionEnum.Down);
   };
 
   const moveUp = () => {
-    const cloneSnake =
-      direction === DirectionEnum.Down ? snake.reverse() : snake;
-    const newSnake = [];
-    let lastXY = {};
-    for (let i = 0; i < cloneSnake.length; i += 1) {
-      const newItem = { ...cloneSnake[i] };
-      if (i !== 0) {
-        if (lastXY.y > cloneSnake[i].y && lastXY.x === cloneSnake[i].x)
-          newItem.y += 1;
-        else if (lastXY.y === cloneSnake[i].y && lastXY.x < cloneSnake[i].x)
-          newItem.x -= 1;
-        else if (lastXY.y < cloneSnake[i].y && lastXY.x === cloneSnake[i].x)
-          newItem.y -= 1;
-        else if (lastXY.y === cloneSnake[i].y && lastXY.x > cloneSnake[i].x)
-          newItem.x += 1;
-      } else newItem.y -= 1;
-      lastXY = { ...cloneSnake[i] };
-      newSnake.push(newItem);
+    if (
+      (canTurnBack && direction === DirectionEnum.Down) ||
+      direction !== DirectionEnum.Down
+    ) {
+      const newSnake = jsMoveUp(snake, direction);
+      setSnake(newSnake);
+      setDirection(DirectionEnum.Up);
     }
-    setSnake(newSnake);
-    setDirection(DirectionEnum.Up);
   };
 
   const moveRight = () => {
-    const cloneSnake =
-      direction === DirectionEnum.Left ? snake.reverse() : snake;
-    const newSnake = [];
-    let lastXY = {};
-    for (let i = 0; i < cloneSnake.length; i += 1) {
-      const newItem = { ...cloneSnake[i] };
-      if (i !== 0) {
-        if (lastXY.y > cloneSnake[i].y && lastXY.x === cloneSnake[i].x)
-          newItem.y += 1;
-        else if (lastXY.y === cloneSnake[i].y && lastXY.x < cloneSnake[i].x)
-          newItem.x -= 1;
-        else if (lastXY.y < cloneSnake[i].y && lastXY.x === cloneSnake[i].x)
-          newItem.y -= 1;
-        else if (lastXY.y === cloneSnake[i].y && lastXY.x > cloneSnake[i].x)
-          newItem.x += 1;
-      } else newItem.x += 1;
-      lastXY = { ...cloneSnake[i] };
-      newSnake.push(newItem);
+    if (
+      (canTurnBack && direction === DirectionEnum.Left) ||
+      direction !== DirectionEnum.Left
+    ) {
+      const newSnake = jsMoveRight(snake, direction);
+      setSnake(newSnake);
+      setDirection(DirectionEnum.Right);
     }
-    setSnake(newSnake);
-    setDirection(DirectionEnum.Right);
   };
 
   const moveLeft = () => {
-    const cloneSnake =
-      direction === DirectionEnum.Right ? snake.reverse() : snake;
-    const newSnake = [];
-    let lastXY = {};
-    for (let i = 0; i < cloneSnake.length; i += 1) {
-      const newItem = { ...cloneSnake[i] };
-      if (i !== 0) {
-        if (lastXY.y > cloneSnake[i].y && lastXY.x === cloneSnake[i].x)
-          newItem.y += 1;
-        else if (lastXY.y === cloneSnake[i].y && lastXY.x < cloneSnake[i].x)
-          newItem.x -= 1;
-        else if (lastXY.y < cloneSnake[i].y && lastXY.x === cloneSnake[i].x)
-          newItem.y -= 1;
-        else if (lastXY.y === cloneSnake[i].y && lastXY.x > cloneSnake[i].x)
-          newItem.x += 1;
-      } else newItem.x -= 1;
-      lastXY = { ...cloneSnake[i] };
-      newSnake.push(newItem);
+    if (
+      (canTurnBack && direction === DirectionEnum.Right) ||
+      direction !== DirectionEnum.Right
+    ) {
+      const newSnake = jsMoveLeft(snake, direction);
+      setSnake(newSnake);
+      setDirection(DirectionEnum.Left);
     }
-    setSnake(newSnake);
-    setDirection(DirectionEnum.Left);
   };
 
   const isHead = (y, x) => snake[0].y === y && snake[0].x === x;
@@ -182,18 +176,19 @@ const Game = () => {
   return (
     <div className="App">
       <header className="App-header">
-        {field.map((item, i) => (
-          <SitoContainer key={i}>
-            {field.map((jtem, j) => (
-              <SitoContainer key={j} sx={cell}>
-                {isHead(i, j) && (
-                  <div className={`snake-head ${rotateByDirection()}`} />
-                )}
-                {isBody(i, j) && <div className="snake-body" />}
-              </SitoContainer>
-            ))}
-          </SitoContainer>
-        ))}
+        {snake.length &&
+          field.map((item, i) => (
+            <SitoContainer key={i}>
+              {field.map((jtem, j) => (
+                <SitoContainer key={j} sx={cell}>
+                  {isHead(i, j) && (
+                    <div className={`snake-head ${rotateByDirection()}`} />
+                  )}
+                  {isBody(i, j) && <div className="snake-body" />}
+                </SitoContainer>
+              ))}
+            </SitoContainer>
+          ))}
       </header>
       <SitoContainer sx={{ position: "absolute", zIndex: 99, top: 0, left: 0 }}>
         <button onClick={moveUp}>{languageState.texts.Game.Up}</button>
